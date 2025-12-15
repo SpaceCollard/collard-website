@@ -1,14 +1,404 @@
-<html>
-    <head>
-        <title>Collard Wiki</title>
-	<link rel="icon" href="/images/collardlogo.png">
-        <meta charset=utf-8 name="keywords" content="SS14, space station 14, ss13, ss14 wiki, ss14 collard, collard wiki, ss14 collard wiki">
-    </head>
-    <body>
-        <h1>Вики</h1>
-        <h2>Работа в процессе. Тут пока ничего нет.</h2>
-	<ul>
-	<li><a href="collard.neomatress.xyz/">Назад на главную</a></li>
-	</ul>
-    </body>
+<!-- /wiki -->
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collard Greens</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a2f0a 0%, #1a5a1a 100%);
+            color: #e0f0e0;
+            min-height: 100vh;
+            display: flex;
+        }
+        
+        /* Боковая панель */
+        .sidebar {
+            width: 250px;
+            background: rgba(10, 40, 10, 0.8);
+            padding: 20px 15px;
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+        
+        .sidebar h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #a8d8a8;
+            font-size: 1.4rem;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #2a6a2a;
+        }
+        
+        .sidebar-item {
+            display: block;
+            background: rgba(26, 74, 26, 0.7);
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 4px solid #3a8a3a;
+            text-decoration: none;
+            color: #e0f0e0;
+        }
+        
+        .sidebar-item:hover {
+            background: rgba(42, 106, 42, 0.9);
+            transform: translateX(5px);
+            text-decoration: none;
+            color: #ffffff;
+        }
+        
+        /* Основной контент */
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+            width: calc(100% - 250px);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(10, 40, 10, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            font-size: 3.2rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(to right, #a8d8a8, #7ab87a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            font-weight: normal;
+            color: #a8d8a8;
+        }
+        
+        /* Сворачиваемая секция */
+        .collapsible-section {
+            background: rgba(26, 74, 26, 0.7);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 25px auto;
+            max-width: 900px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid #2a6a2a;
+        }
+        
+        .collapsible-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 12px;
+            font-size: 1.3rem;
+            color: #c8e8c8;
+        }
+        
+        .collapsible-content {
+            padding: 20px;
+            border-top: 1px solid #2a6a2a;
+            display: none;
+        }
+        
+        .collapsible-content.active {
+            display: block;
+        }
+        
+        .toggle-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+        
+        .toggle-icon.active {
+            transform: rotate(180deg);
+        }
+        
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: rgba(15, 58, 15, 0.8);
+            border: 1px solid #3a8a3a;
+            border-radius: 8px;
+            color: #e0f0e0;
+            padding: 15px;
+            resize: vertical;
+            font-size: 1rem;
+        }
+        
+        /* Квадраты с картинками */
+        .squares-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin: 40px auto;
+            max-width: 1000px;
+        }
+        
+        @media (max-width: 1200px) {
+            .squares-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .squares-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .squares-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                width: 200px;
+            }
+            
+            .main-content {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+            }
+        }
+        
+        .square {
+            aspect-ratio: 1 / 1;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            text-align: center;
+            padding: 15px;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-color: #1a5a1a; /* Фолбэк */
+        }
+        
+        .square::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 40, 10, 0.7);
+            transition: all 0.4s ease;
+            z-index: 1;
+        }
+        
+        .square:hover::before {
+            background: rgba(10, 40, 10, 0.4);
+        }
+        
+        .square-content {
+            position: relative;
+            z-index: 2;
+            width: 110%;
+        }
+        
+        .square-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+        
+        .square-description {
+            font-size: 0.9rem;
+            color: #c8e8c8;
+            background: rgba(10, 40, 10, 0.8);
+            padding: 8px 12px;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        .square:hover .square-description {
+            opacity: 1;
+            transform: translateY(0);
+            max-height: 100px;
+        }
+        
+        .square:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Cсылки */
+        .links-section {
+            background: rgba(26, 74, 26, 0.7);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 40px auto;
+            max-width: 1000px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid #2a6a2a;
+        }
+        
+        .links-section h3 {
+            margin-bottom: 20px;
+            color: #a8d8a8;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        .links-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .link {
+            background: rgba(15, 58, 15, 0.8);
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            color: #e0f0e0;
+            transition: all 0.3s ease;
+            border: 1px solid #3a8a3a;
+        }
+        
+        .link:hover {
+            background: rgba(42, 106, 42, 0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Боковая панель --> 
+<div class="sidebar">
+    <h3>Основное</h3>
+    <a href="https://collard.neomatress.xyz/" class="sidebar-item">Главная страница</a>
+    <a href="/wiki/server_rules" class="sidebar-item">Правила</a>
+    <a href="/wiki/space_law" class="sidebar-item">Корпоративный закон</a>
+    <a href="/wiki/srp" class="sidebar-item">Стандартные процедуры</a>
+    <a href="/wiki/lore" class="sidebar-item">Лор</a>
+    <a href="/wiki/info" class="sidebar-item">Информация</a>
+    <a href="/wiki/guides" class="sidebar-item">Руководства</a>
+    <a href="/wiki/about" class="sidebar-item">О нас</a>
+    <a href="/wiki/admins/codex" class="sidebar-item">Правила администрации</a>
+</div>
+    
+    <!-- Основной контент странички -->
+	
+    <div class="main-content">
+        <header>
+            <h1>Wiki Colard Greens</h1>
+            <h2>Всё и обо всём</h2>
+        </header>
+
+        <!-- все картинки должны быть 500 на 80 -->
+        <div class="squares-container">
+            <a href="/wiki/server_rules" target="_blank" class="square" style="background-image: url('/images/rules.png')">
+                <div class="square-content">
+                    <div class="square-title">Правила</div>
+                    <div class="square-description">Соблюдайте их. Не потому что нужно, а ради баланса вселенной.</div>
+                </div>
+            </a>
+            <a href="/wiki/space_law" target="_blank" class="square" style="background-image: url('/images/kz.png')">
+                <div class="square-content">
+                    <div class="square-title">Корпоративный закон</div>
+                    <div class="square-description">Настало время испортить игру. И не важно на чьей вы стороне.</div>
+                </div>
+            </a>
+            <a href="/wiki/srp" target="_blank" class="square" style="background-image: url('/images/srp.png')">
+                <div class="square-content">
+                    <div class="square-title">СРП</div>
+                    <div class="square-description">Стандартные рабочие процедуры. Их следует соблюдать.</div>
+                </div>
+            </a>
+            <a href="/wiki/guides" target="_blank" class="square" style="background-image: url('/images/guides.png')">
+                <div class="square-content">
+                    <div class="square-title">Руководства</div>
+                    <div class="square-description">Сломал? Ничё, сейчас расскажу как надо было!</div>
+                </div>
+            </a>
+            <a href="/wiki/lore" target="_blank" class="square" style="background-image: url('/images/lore.png')">
+                <div class="square-content">
+                    <div class="square-title">Лор</div>
+                    <div class="square-description">Сказки на ночь.</div>
+                </div>
+            </a>
+            <a href="/wiki/info" target="_blank" class="square" style="background-image: url('/images/info.png')">
+                <div class="square-content">
+                    <div class="square-title">Информация</div>
+                    <div class="square-description">Важная информация обо всём.</div>
+                </div>
+            </a>
+            <a href="/wiki/admins/" target="_blank" class="square" style="background-image: url('/images/admins.png')">
+                <div class="square-content">
+                    <div class="square-title">Админы</div>
+                    <div class="square-description">Информация для админов и про админов.</div>
+                </div>
+            </a>
+            <a href="/wiki/autizm" target="_blank" class="square" style="background-image: url('/images/autizm.png')">
+                <div class="square-content">
+                    <div class="square-title">Аутизм</div>
+                    <div class="square-description">Присоединяйтесь к нам!</div>
+                </div>
+            </a>
+        </div>
+        
+        <section class="links-section">
+            <h3>Другие ссылки</h3>
+            <div class="links-container">
+                <a href="/wiki/arts" class="link">Творчество</a>
+                <a href="/wiki/about" class="link">О нас</a>
+                <a href="/wiki/baninfo" class="link">Ты был забанен?</a>
+                <a href="https://discord.gg/cCQ5NQaQn6" class="link">Дискорд</a>
+                <a href="https://github.com/SpaceCollard" class="link">GitHub</a>
+                <a href="/wiki/files" class="link">Плюшкофайлы</a>
+                <a href="/wiki/admins/codex" class="link">Кодекс администрации</a>
+                <a href="https://wiki.ss220.space/index.php" class="link">Проклятье 220</a>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        function toggleCollapsible() {
+            const content = document.querySelector('.collapsible-content');
+            const icon = document.querySelector('.toggle-icon');
+            
+            content.classList.toggle('active');
+            icon.classList.toggle('active');
+        }
+        
+
+        
+    </script>
+</body>
 </html>
